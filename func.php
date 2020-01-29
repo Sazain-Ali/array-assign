@@ -1,10 +1,6 @@
 <?php 
- 
-    if(isset($_POST['num'])){ 
-	  $num = $_POST['num'];
-   
-
-	  $words =array( "1" => "one",
+	 
+	 $words =array( "1" => "one",
 	  "2" => "two",
 	  "3" => "three",
 	  "4" => "four",
@@ -34,23 +30,30 @@
 	  "100" => "hundred",
 	 "1000" => "thousand");
 
-	  function numberToWords ($number){ 
-        //foreach($number as $word){
-			return $word[$number];
-		//}
+	 if(isset($_POST['num'])){ 
+		$num = $_POST['num'];
+		echo numberToWords($num);
+	 }
 
-		if($number > "20" && $number < "100"){
-			return numberToWords(round( $number / 10) * 10). " ". numberToWords($number % 10);
+	  function numberToWords($number){ 
+		  global $words;
+        foreach($words as $key => $value){
+			if($number == $key)
+			return $value;		}
+		
+		if ($number > 20 && $number < 100) {
+			return numberToWords(floor($number / 10) * 10) . ' ' . numberToWords($number % 10);
 		}
-           return $number;
+		
+        if ($number > 100 && $number < 1000){
+            return numberToWords(floor($number / 100)) . ' hundred and ' . numberToWords($number % 100);
+        }
+  
+		if ($number > 1000 && $number < 100000){
+            return numberToWords(floor($number / 1000)) .' thousand ' . numberToWords($number % 1000);
+        }
+        return $number;
 	  }
-   
-	  echo numberToWords($num);  
-
-
-
-	}
-	  
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +61,7 @@
 <head></head>
 
 <body>
-  <form method="POST">
+  <form method="POST"><br><br>
    <label>ENTER YOUR NUMBER</label>
    <input type="number" name="num"><br><br>
    <input type="submit"  value="ENTER">
@@ -66,3 +69,4 @@
 
 </body>
 </html>
+
